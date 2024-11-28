@@ -4,10 +4,13 @@ import com.BlogPessoal.BlogPessoal.DTO.PostagemDTO;
 import com.BlogPessoal.BlogPessoal.Entidades.PostagemClasse;
 import com.BlogPessoal.BlogPessoal.Entidades.UsuarioClasse;
 import com.BlogPessoal.BlogPessoal.Repository.PostagemRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 @Service
 public class PostagemService {
@@ -27,25 +30,30 @@ public class PostagemService {
         this.salvarModificacoesPostagem(postagemClasse);
         return postagemClasse;
     }
-
-/*
-    public String apagarPost(long idPostagem){
-        Optional<PostagemClasse> postApagar = this.postagemRepository.findById(idPostagem);
-        if (postApagar.isPresent()) {
-            this.postagemRepository.delete(postApagar.get());
-            return "Postagem apagada com sucesso!";
-        } else {
-            return "Erro: Postagem não encontrada!";
-        }
-    }
-    public PostagemClasse editarPostagem(PostagemDTO postEditado){
-        PostagemClasse postagemClasse = editarPostagem(postEditado);
-        this.postagemRepository.save(postagemClasse);
-        return postagemClasse;
-    }
-
- */
     public List<PostagemClasse> retornaPostagens(){
         return this.postagemRepository.findAll();
+    }
+    public PostagemClasse atualizarParcialmente(Long id, PostagemDTO atualizacao) {
+        PostagemClasse postagem = postagemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Postagem não encontrada"));
+
+        // Copia apenas os valores não nulos do DTO para a entidade
+        BeanUtils.copyProperties(atualizacao, postagem, getNullPropertyNames(atualizacao));
+
+        return postagemRepository.save(postagem);
+    }
+    // Helper para encontrar propriedades nulas no DTO
+    private String[] getNullPropertyNames(Object source) {
+        return Arrays.stream(BeanUtils.getPropertyDescriptors(source.getClass()))
+                .map(pd -> {
+                    try {
+                        Object value = pd.getReadMethod().invoke(source);
+                        return value == null ? pd.getName() : null;
+                    } catch (Exception e) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .toArray(String[]::new);
     }
 }

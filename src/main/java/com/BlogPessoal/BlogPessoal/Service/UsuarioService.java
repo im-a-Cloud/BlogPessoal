@@ -28,4 +28,5 @@ public class UsuarioService {
     public List<UsuarioClasse> retornaTodosUsuarios(){
         return this.usuarioRepository.findAll();
     }
+
 }

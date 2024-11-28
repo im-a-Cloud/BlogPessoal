@@ -25,4 +25,9 @@ public class PostagemController {
         PostagemClasse postagemClasse = postagemService.novaPostagem(novoPost);
         return new ResponseEntity<>(postagemClasse, HttpStatus.CREATED);
     }
+    @PatchMapping("/atualizar/{idPostagem}")
+    public ResponseEntity<PostagemClasse> atualizarPost(@PathVariable Long idPostagem, @RequestBody PostagemDTO postAtualizado) {
+        PostagemClasse postagemClasse = postagemService.atualizarParcialmente(idPostagem, postAtualizado);
+        return new ResponseEntity<>(postagemClasse, HttpStatus.CREATED);
+    }
 }

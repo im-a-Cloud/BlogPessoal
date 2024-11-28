@@ -1,6 +1,7 @@
 package com.BlogPessoal.BlogPessoal.Entidades;
 
 import com.BlogPessoal.BlogPessoal.DTO.PostagemDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,9 @@ public class PostagemClasse {
 
     private String tituloPostagem;
 
-    private String categoriaPostagem;
+    @ManyToOne
+    @JoinColumn(name = "categoria_classe_id")
+    private CategoriaClasse categoriaPostagem;
 
     private String conteudoPostagem;
 

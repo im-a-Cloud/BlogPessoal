@@ -2,5 +2,7 @@ package com.BlogPessoal.BlogPessoal.DTO;
 
 import com.BlogPessoal.BlogPessoal.Entidades.CategoriaClasse;
 
-public record PostagemDTO(String tituloPostagem, String categoriaClasse, String conteudoPostagem) {
+import java.util.List;
+
+public record PostagemDTO(String tituloPostagem, CategoriaClasse categoriaClasse, String conteudoPostagem) {
 }
