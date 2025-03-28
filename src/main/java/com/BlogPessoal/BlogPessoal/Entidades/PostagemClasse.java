@@ -21,6 +21,7 @@ public class PostagemClasse {
 
     @ManyToOne
     @JoinColumn(name = "categoria_classe_id")
+    @JsonIgnore
     private CategoriaClasse categoriaPostagem;
 
     private String conteudoPostagem;
