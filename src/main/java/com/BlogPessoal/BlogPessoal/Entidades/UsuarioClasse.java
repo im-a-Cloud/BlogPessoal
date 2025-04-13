@@ -4,16 +4,20 @@ import com.BlogPessoal.BlogPessoal.DTO.UsuarioDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
-@Table(name = "tb_Usuario")
+@Table(name = "tb_usuario")
 @Getter
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode(of = "idUsuario")
 public class UsuarioClasse {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "UUID")
+
+    private UUID idUsuario;
 
     private String nomeUsuario;
 
